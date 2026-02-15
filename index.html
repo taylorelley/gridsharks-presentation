@@ -6,73 +6,103 @@
     <title>GridSharks - F1 Fantasy Intelligence</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+        :root {
+            --gs-slate-900: #0f172a;
+            --gs-slate-800: #1e293b;
+            --gs-slate-700: #334155;
+            --gs-slate-400: #94a3b8;
+            --gs-slate-300: #cbd5e1;
+            --gs-slate-200: #e2e8f0;
+            --gs-slate-100: #f1f5f9;
+            --gs-red-500: #ef4444;
+            --gs-orange-500: #f97316;
+            --gs-white-05: rgba(255,255,255,0.05);
+            --gs-white-10: rgba(255,255,255,0.1);
+        }
         
         .reveal {
             font-family: 'Inter', sans-serif;
+            background: var(--gs-slate-900);
         }
         
         .reveal h1, .reveal h2, .reveal h3 {
             text-transform: none;
-            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .reveal h1 {
+            font-family: 'Bruno Ace SC', sans-serif;
+            font-style: italic;
         }
         
         .reveal .brand {
-            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+            font-family: 'Bruno Ace SC', sans-serif;
+            font-style: italic;
+            background: linear-gradient(to bottom right, white, white, var(--gs-slate-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.3));
+        }
+        
+        .reveal .tagline {
+            background: linear-gradient(to right, var(--gs-red-500), var(--gs-orange-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 900;
-            font-size: 1.2em;
         }
         
-        .reveal .tagline {
-            color: #00d4ff;
-            font-size: 0.8em;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-        
-        .reveal .feature-box {
-            background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,102,255,0.05) 100%);
-            padding: 30px;
-            margin: 20px 0;
+        .reveal .glass-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--gs-white-05);
             border-radius: 15px;
-            border: 2px solid rgba(0,212,255,0.3);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(24px);
+            padding: 30px;
             transition: all 0.3s ease;
         }
         
-        .reveal .feature-box:hover {
+        .reveal .glass-card:hover {
+            background: rgba(15, 23, 42, 0.6);
             transform: translateY(-5px);
-            border-color: #00d4ff;
-            box-shadow: 0 10px 40px rgba(0,212,255,0.3);
+        }
+        
+        .reveal .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--gs-white-05);
+            border-radius: 20px;
+            backdrop-filter: blur(24px);
+            padding: 50px;
         }
         
         .reveal .stat {
             font-size: 4em;
-            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+            background: linear-gradient(to right, var(--gs-red-500), var(--gs-orange-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Bruno Ace SC', sans-serif;
             line-height: 1;
-            margin: 10px 0;
-        }
-        
-        .reveal .racing-stripe {
-            height: 5px;
-            background: linear-gradient(90deg, #00d4ff 0%, #0066ff 50%, #00d4ff 100%);
             margin: 20px 0;
-            animation: racing 2s linear infinite;
         }
         
-        @keyframes racing {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+        .reveal .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--gs-red-500), var(--gs-orange-500));
+            margin-right: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
         
         .reveal .grid-2 {
@@ -87,69 +117,90 @@
             gap: 30px;
         }
         
-        .reveal .score-card {
-            background: rgba(0,0,0,0.5);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #00d4ff;
-            text-align: left;
+        .reveal .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        
+        .reveal .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
         }
         
         .reveal .score-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            margin: 10px 0;
+            height: 10px;
+            background: var(--gs-white-05);
+            border-radius: 5px;
+            margin: 15px 0;
             overflow: hidden;
         }
         
         .reveal .score-fill {
             height: 100%;
-            background: linear-gradient(90deg, #00d4ff 0%, #0066ff 100%);
+            background: linear-gradient(to right, var(--gs-red-500), var(--gs-orange-500));
             transition: width 1s ease;
         }
         
-        .reveal .tech-icon {
-            font-size: 3em;
-            margin: 20px;
-            filter: drop-shadow(0 0 10px rgba(0,212,255,0.5));
+        .reveal .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: var(--gs-white-05);
+            border: 1px solid var(--gs-white-10);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            backdrop-filter: blur(16px);
         }
         
-        .reveal .pulse {
-            animation: pulse 2s ease-in-out infinite;
+        .reveal .icon-box {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 12px;
+            font-size: 2em;
+            margin-bottom: 20px;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
+        .reveal strong {
+            color: var(--gs-slate-100);
         }
         
-        .reveal .glow {
-            text-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.5);
+        .reveal em {
+            color: var(--gs-slate-400);
         }
         
-        .reveal .code-block {
-            background: rgba(0,0,0,0.8);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(0,212,255,0.3);
-            font-family: 'Monaco', monospace;
-            text-align: left;
+        .reveal .text-gradient {
+            background: linear-gradient(to bottom right, white, white, var(--gs-slate-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        /* Vertical slide indicator */
         .reveal .vertical-indicator {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            color: rgba(0,212,255,0.5);
-            font-size: 0.8em;
-            animation: bounce 1s ease-in-out infinite;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gs-slate-400);
+            font-size: 0.9em;
+            animation: bounce 1.5s ease-in-out infinite;
         }
         
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -10px); }
+        }
+        
+        .reveal .slide-background {
+            background: var(--gs-slate-900) !important;
         }
     </style>
 </head>
@@ -157,70 +208,75 @@
     <div class="reveal">
         <div class="slides">
             
-            <!-- SLIDE 1: Epic Title with Animation -->
-            <section data-background-gradient="linear-gradient(135deg, #000000 0%, #001a33 100%)">
-                <h1 class="brand pulse" style="font-size: 3em;">GridSharks</h1>
-                <div class="racing-stripe"></div>
-                <h3 class="tagline fragment fade-in">Think ahead. Win more.</h3>
-                <p class="fragment fade-up" style="margin-top: 50px;">F1 Fantasy Intelligence Powered by Data</p>
+            <!-- SLIDE 1: Hero -->
+            <section>
+                <div class="glow-blob" style="top: 10%; left: 50%; width: 600px; height: 600px; background: linear-gradient(to right, #ef4444, #f97316); transform: translateX(-50%);"></div>
+                <div class="badge fragment fade-in">
+                    <span class="pulse-dot"></span>
+                    Updated for the 2026 Season
+                </div>
+                <h1 class="brand" style="font-size: 4em; margin: 40px 0;">GridSharks</h1>
+                <h2 style="font-size: 2.5em; margin-bottom: 40px;">
+                    <span class="text-gradient">Think ahead.</span> 
+                    <span class="tagline">Win more.</span>
+                </h2>
+                <p class="fragment fade-up" style="color: var(--gs-slate-300); font-weight: 300; font-size: 1.2em; max-width: 800px; margin: 0 auto;">
+                    Machine learning powered by real F1 data
+                </p>
             </section>
 
-            <!-- SLIDE 2: The Problem (with vertical slides) -->
+            <!-- SLIDE 2: The Problem -->
             <section>
-                <section data-background-gradient="linear-gradient(135deg, #1a0000 0%, #330000 100%)">
+                <section>
                     <h2>The Problem</h2>
-                    <div class="grid-2" style="margin-top: 50px;">
-                        <div class="feature-box fragment fade-right">
-                            <h3>😰 Overwhelmed</h3>
-                            <p>20 drivers, 10 teams, practice data, weather...</p>
+                    <div class="grid-2 fragment fade-up" style="margin-top: 50px;">
+                        <div class="glass-card">
+                            <div class="icon-box">😰</div>
+                            <h3>Overwhelmed</h3>
+                            <p style="color: var(--gs-slate-400);">20 drivers, 10 teams, practice data, changing weather...</p>
                         </div>
-                        <div class="feature-box fragment fade-left">
-                            <h3>🤔 Confused</h3>
-                            <p>Contradictory opinions everywhere</p>
+                        <div class="glass-card">
+                            <div class="icon-box">🤔</div>
+                            <h3>Confused</h3>
+                            <p style="color: var(--gs-slate-400);">Contradictory opinions from every expert</p>
                         </div>
-                        <div class="feature-box fragment fade-right">
-                            <h3>⏰ No Time</h3>
-                            <p>Who has hours to analyze FP1/FP2/FP3?</p>
+                        <div class="glass-card">
+                            <div class="icon-box">⏰</div>
+                            <h3>No Time</h3>
+                            <p style="color: var(--gs-slate-400);">Who has hours to analyze FP1/FP2/FP3?</p>
                         </div>
-                        <div class="feature-box fragment fade-left">
-                            <h3>📉 Losing</h3>
-                            <p>Wrong picks = wasted budget</p>
+                        <div class="glass-card">
+                            <div class="icon-box">📉</div>
+                            <h3>Losing</h3>
+                            <p style="color: var(--gs-slate-400);">Wrong picks = wasted budget</p>
                         </div>
                     </div>
                     <p class="vertical-indicator fragment">↓ Scroll for more</p>
                 </section>
                 
-                <!-- Vertical slide: The Consequences -->
-                <section data-background-gradient="linear-gradient(135deg, #1a0000 0%, #330000 100%)">
-                    <h3>The Consequences</h3>
+                <section>
+                    <h3>The Reality</h3>
                     <div class="stat fragment">79%</div>
-                    <p class="fragment">of F1 Fantasy players finish in the bottom half</p>
-                    <br>
-                    <div class="stat fragment">3.2M</div>
-                    <p class="fragment">points separate the top 1% from everyone else</p>
-                    <br>
-                    <p class="fragment fade-up" style="font-size: 1.5em; margin-top: 40px;">
-                        <strong class="glow">Most players guess. We calculate.</strong>
+                    <p class="fragment" style="color: var(--gs-slate-300);">finish in the bottom half of F1 Fantasy</p>
+                    <br><br>
+                    <p class="fragment fade-up" style="font-size: 1.5em; margin-top: 60px;">
+                        <strong>Most players guess.<br>We calculate.</strong>
                     </p>
                 </section>
             </section>
 
             <!-- SLIDE 3: The Solution (auto-animate) -->
             <section>
-                <section data-auto-animate data-background-gradient="linear-gradient(135deg, #000033 0%, #001a1a 100%)">
-                    <h2 data-id="solution-title">The Solution</h2>
-                    <div data-id="solution-box" style="background: rgba(0,212,255,0.1); padding: 30px; border-radius: 20px;">
-                        <h3 class="brand">GridSharks</h3>
-                    </div>
+                <section data-auto-animate>
+                    <h2 data-id="solution">GridSharks</h2>
                 </section>
                 
-                <section data-auto-animate data-background-gradient="linear-gradient(135deg, #000033 0%, #001a1a 100%)">
-                    <h2 data-id="solution-title">The Solution</h2>
-                    <div data-id="solution-box" style="background: rgba(0,212,255,0.1); padding: 50px; border-radius: 20px; width: 100%;">
-                        <h3 class="brand">Data-Backed F1 Fantasy Picks</h3>
-                        <div class="racing-stripe"></div>
-                        <p class="fragment">We crunch the numbers. You get the picks.</p>
-                        <div class="grid-3 fragment" style="margin-top: 30px;">
+                <section data-auto-animate>
+                    <h2 data-id="solution" style="font-size: 1.5em;">GridSharks</h2>
+                    <div class="glass-panel fragment">
+                        <h3 style="font-size: 2em; margin-bottom: 30px;">Data-Backed F1 Fantasy Picks</h3>
+                        <p style="color: var(--gs-slate-300); font-size: 1.2em;">We crunch the numbers. You get the picks.</p>
+                        <div class="grid-3 fragment" style="margin-top: 40px; font-size: 1.1em;">
                             <div>✅ Safe picks</div>
                             <div>🎲 High-risk options</div>
                             <div>⚡ Real-time updates</div>
@@ -229,215 +285,143 @@
                 </section>
             </section>
 
-            <!-- SLIDE 4: How It Works - The Algorithm -->
-            <section data-background-gradient="linear-gradient(135deg, #000000 0%, #1a0033 100%)">
-                <h2>The 5-Factor Algorithm</h2>
-                <div class="grid-2" style="margin-top: 40px;">
-                    <div class="score-card fragment fade-up" data-fragment-index="1">
-                        <h4>🏁 Practice Performance</h4>
-                        <p style="font-size: 0.8em;">ML analysis of FP1/FP2/FP3</p>
-                        <div class="score-bar"><div class="score-fill fragment" data-fragment-index="2" style="width: 85%;"></div></div>
+            <!-- SLIDE 4: How It Works -->
+            <section>
+                <h2>How It Works</h2>
+                <div class="glass-panel fragment fade-up" style="text-align: left; margin-top: 40px;">
+                    <h3 style="margin-bottom: 30px;">5-Factor Algorithm</h3>
+                    <div class="fragment">
+                        <strong>🏁 Practice Performance</strong>
+                        <p style="color: var(--gs-slate-400); margin: 10px 0 5px 0;">ML analysis of FP sessions</p>
+                        <div class="score-bar"><div class="score-fill fragment" style="width: 85%;"></div></div>
                     </div>
-                    <div class="score-card fragment fade-up" data-fragment-index="1">
-                        <h4>⚡ Qualifying Speed</h4>
-                        <p style="font-size: 0.8em;">Raw pace + grid trends</p>
-                        <div class="score-bar"><div class="score-fill fragment" data-fragment-index="2" style="width: 92%;"></div></div>
+                    <div class="fragment">
+                        <strong>⚡ Qualifying Speed</strong>
+                        <p style="color: var(--gs-slate-400); margin: 10px 0 5px 0;">Raw pace + grid position trends</p>
+                        <div class="score-bar"><div class="score-fill fragment" style="width: 92%;"></div></div>
                     </div>
-                    <div class="score-card fragment fade-up" data-fragment-index="1">
-                        <h4>🎯 Race Pace</h4>
-                        <p style="font-size: 0.8em;">Lap-by-lap consistency</p>
-                        <div class="score-bar"><div class="score-fill fragment" data-fragment-index="2" style="width: 78%;"></div></div>
+                    <div class="fragment">
+                        <strong>🎯 Race Pace</strong>
+                        <p style="color: var(--gs-slate-400); margin: 10px 0 5px 0;">Lap-by-lap consistency</p>
+                        <div class="score-bar"><div class="score-fill fragment" style="width: 78%;"></div></div>
                     </div>
-                    <div class="score-card fragment fade-up" data-fragment-index="1">
-                        <h4>💰 Value</h4>
-                        <p style="font-size: 0.8em;">Points per million</p>
-                        <div class="score-bar"><div class="score-fill fragment" data-fragment-index="2" style="width: 95%;"></div></div>
+                    <div class="fragment">
+                        <strong>💰 Value</strong>
+                        <p style="color: var(--gs-slate-400); margin: 10px 0 5px 0;">Points per million analysis</p>
+                        <div class="score-bar"><div class="score-fill fragment" style="width: 95%;"></div></div>
                     </div>
-                    <div class="score-card fragment fade-up" data-fragment-index="1" style="grid-column: span 2;">
-                        <h4>🏆 Track Match</h4>
-                        <p style="font-size: 0.8em;">Historical performance at this circuit</p>
-                        <div class="score-bar"><div class="score-fill fragment" data-fragment-index="2" style="width: 88%;"></div></div>
+                    <div class="fragment">
+                        <strong>🏆 Track Match</strong>
+                        <p style="color: var(--gs-slate-400); margin: 10px 0 5px 0;">Historical performance at this circuit</p>
+                        <div class="score-bar"><div class="score-fill fragment" style="width: 88%;"></div></div>
                     </div>
                 </div>
             </section>
 
-            <!-- SLIDE 5: Live Pick Example -->
-            <section data-background-gradient="linear-gradient(135deg, #001a00 0%, #003300 100%)">
-                <h2>Example Pick: Bahrain GP</h2>
-                <div class="grid-2" style="margin-top: 40px;">
-                    <div class="fragment fade-right">
-                        <div class="feature-box">
-                            <h3 style="color: #00ff88;">Safe Pick 🛡️</h3>
-                            <h2>Max Verstappen</h2>
-                            <p>$31.5M • 95% confidence</p>
-                            <div class="score-bar" style="margin-top: 20px;">
-                                <div class="score-fill" style="width: 95%; background: #00ff88;"></div>
-                            </div>
-                            <p style="font-size: 0.8em; margin-top: 15px; opacity: 0.8;">
-                                Dominant in practice. Best quali pace. Highest points-per-race average.
-                            </p>
-                        </div>
+            <!-- SLIDE 5: Features -->
+            <section>
+                <h2>Power Features</h2>
+                <div class="grid-4" style="margin-top: 50px;">
+                    <div class="glass-card fragment fade-up">
+                        <div class="icon-box">📅</div>
+                        <h4>Look Ahead Picks</h4>
+                        <p style="color: var(--gs-slate-400); font-size: 0.9em;">Plan 3-4 races ahead</p>
                     </div>
-                    <div class="fragment fade-left">
-                        <div class="feature-box">
-                            <h3 style="color: #ff8800;">High-Risk Pick 🎲</h3>
-                            <h2>Oscar Piastri</h2>
-                            <p>$18.2M • 68% confidence</p>
-                            <div class="score-bar" style="margin-top: 20px;">
-                                <div class="score-fill" style="width: 68%; background: #ff8800;"></div>
-                            </div>
-                            <p style="font-size: 0.8em; margin-top: 15px; opacity: 0.8;">
-                                Undervalued. Strong FP2 times. Great track record. Could score big.
-                            </p>
-                        </div>
+                    <div class="glass-card fragment fade-up">
+                        <div class="icon-box">📊</div>
+                        <h4>Practice Insight</h4>
+                        <p style="color: var(--gs-slate-400); font-size: 0.9em;">ML from Friday sessions</p>
+                    </div>
+                    <div class="glass-card fragment fade-up">
+                        <div class="icon-box">📍</div>
+                        <h4>Track-Match</h4>
+                        <p style="color: var(--gs-slate-400); font-size: 0.9em;">Circuit-specific guidance</p>
+                    </div>
+                    <div class="glass-card fragment fade-up">
+                        <div class="icon-box">📈</div>
+                        <h4>Form Watch</h4>
+                        <p style="color: var(--gs-slate-400); font-size: 0.9em;">Dynamic trend tracking</p>
                     </div>
                 </div>
-                <p class="fragment fade-up" style="margin-top: 40px;">
-                    <em>Updated live after every practice session</em> ⚡
+            </section>
+
+            <!-- SLIDE 6: The Numbers -->
+            <section>
+                <div class="glow-blob" style="top: 50%; right: 0; width: 400px; height: 400px; background: linear-gradient(to right, #ef4444, #f97316);"></div>
+                <h2>By The Numbers</h2>
+                <div class="grid-3" style="margin-top: 80px;">
+                    <div class="fragment zoom-in">
+                        <div class="stat">5</div>
+                        <p style="color: var(--gs-slate-300);">Scoring Factors</p>
+                    </div>
+                    <div class="fragment zoom-in">
+                        <div class="stat">20</div>
+                        <p style="color: var(--gs-slate-300);">Drivers Analyzed</p>
+                    </div>
+                    <div class="fragment zoom-in">
+                        <div class="stat">70+</div>
+                        <p style="color: var(--gs-slate-300);">Years of F1 Data</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: Tech Stack -->
+            <section>
+                <h2>Built on Solid Tech</h2>
+                <div class="glass-panel fragment fade-up" style="margin-top: 40px; text-align: left; font-family: 'Monaco', monospace; font-size: 0.9em;">
+                    <p><span style="color: var(--gs-slate-400);">// The Stack</span></p>
+                    <p style="margin-top: 20px;">Frontend: <span style="color: white;">Next.js</span> + Tailwind CSS</p>
+                    <p>Backend: <span style="color: var(--gs-red-500);">FastAPI</span> (Python) + PostgreSQL</p>
+                    <p>Data: <span style="color: var(--gs-orange-500);">Ergast API</span> + OpenF1 telemetry</p>
+                    <p>ML: <span style="color: white;">scikit-learn</span> for practice prediction</p>
+                    <p>Deploy: Coolify (self-hosted, blazing fast)</p>
+                </div>
+                <p class="fragment" style="color: var(--gs-slate-400); margin-top: 40px;">
+                    <em>70+ years of F1 data. Millisecond response times.</em>
                 </p>
             </section>
 
-            <!-- SLIDE 6: Features Grid -->
-            <section data-background-gradient="linear-gradient(135deg, #00001a 0%, #001a33 100%)">
-                <h2>Power Features</h2>
-                <div class="grid-2" style="margin-top: 40px;">
-                    <div class="feature-box fragment fade-up" data-fragment-index="1">
-                        <div class="tech-icon">🔮</div>
-                        <h4>Look-Ahead Picks</h4>
-                        <p>Plan your squad 3-4 races ahead</p>
-                    </div>
-                    <div class="feature-box fragment fade-up" data-fragment-index="2">
-                        <div class="tech-icon">📊</div>
-                        <h4>Practice ML</h4>
-                        <p>Form prediction from Friday data</p>
-                    </div>
-                    <div class="feature-box fragment fade-up" data-fragment-index="3">
-                        <div class="tech-icon">🏁</div>
-                        <h4>Track-Match Guidance</h4>
-                        <p>Who thrives at this circuit?</p>
-                    </div>
-                    <div class="feature-box fragment fade-up" data-fragment-index="4">
-                        <div class="tech-icon">⚡</div>
-                        <h4>Real-Time Updates</h4>
-                        <p>Alerts when picks change</p>
-                    </div>
-                    <div class="feature-box fragment fade-up" data-fragment-index="5">
-                        <div class="tech-icon">💡</div>
-                        <h4>Differentials</h4>
-                        <p>Low-owned gems for leapfrogging</p>
-                    </div>
-                    <div class="feature-box fragment fade-up" data-fragment-index="6">
-                        <div class="tech-icon">📈</div>
-                        <h4>Price Change Tracker</h4>
-                        <p>Never miss value shifts</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 7: The Tech Stack -->
-            <section data-background-gradient="linear-gradient(135deg, #1a001a 0%, #330033 100%)">
-                <h2>Built on Solid Tech</h2>
-                <div class="code-block fragment fade-up">
-                    <p style="color: #00d4ff;">// The Stack</p>
-                    <p>Frontend: <span style="color: #fff;">Next.js</span> + <span style="color: #00d4ff;">Tailwind CSS</span></p>
-                    <p>Backend: <span style="color: #00ff88;">FastAPI</span> (Python) + <span style="color: #fff;">PostgreSQL</span></p>
-                    <p>Data: <span style="color: #ff8800;">Ergast API</span> + <span style="color: #00d4ff;">OpenF1</span> telemetry</p>
-                    <p>ML: <span style="color: #fff;">scikit-learn</span> for practice prediction</p>
-                    <p>Deploy: <span style="color: #00d4ff;">Coolify</span> (self-hosted, blazing fast)</p>
-                </div>
-                <div class="racing-stripe fragment"></div>
-                <p class="fragment"><em>70+ years of F1 data. Millisecond response times.</em></p>
-            </section>
-
-            <!-- SLIDE 8: Brand Voice -->
-            <section data-background-gradient="linear-gradient(135deg, #000000 0%, #0d0d0d 100%)">
+            <!-- SLIDE 8: Voice -->
+            <section>
                 <h2>Our Voice</h2>
-                <div style="font-size: 1.5em; margin: 50px 0;">
-                    <p class="fragment fade-out" data-fragment-index="1" style="color: #666;">
-                        ❌ "Our proprietary AI-powered quantum algorithm leverages synergistic machine learning paradigms..."
+                <div style="margin: 60px 0;">
+                    <div class="fragment fade-out" data-fragment-index="1">
+                        <p style="color: var(--gs-slate-500); text-decoration: line-through; font-size: 1.2em;">
+                            ❌ "Our proprietary AI-powered quantum algorithm leverages synergistic machine learning paradigms..."
+                        </p>
+                    </div>
+                </div>
+                <div class="glass-panel fragment fade-up" data-fragment-index="1" style="margin-top: 40px;">
+                    <h3 style="font-size: 2em; margin-bottom: 30px;">Clear. Confident. No Bullshit.</h3>
+                    <p style="font-size: 1.5em; color: var(--gs-slate-200);">
+                        "We crunch the numbers.<br>You get the picks."
                     </p>
                 </div>
-                <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 40px;">
-                    <div class="feature-box">
-                        <h3 style="font-size: 2em; margin-bottom: 30px;">✅ Clear. Confident. No Bullshit.</h3>
-                        <p style="font-size: 1.2em;">"We crunch the numbers. You get the picks."</p>
-                    </div>
-                </div>
-                <p class="fragment fade-up" style="margin-top: 40px; font-size: 1.1em;">
-                    <strong>Make sports decisions feel simple.</strong><br>
-                    Clear guidance, plain words, no noise.
-                </p>
             </section>
 
-            <!-- SLIDE 9: The Numbers -->
-            <section data-background-gradient="linear-gradient(135deg, #001a1a 0%, #003333 100%)">
-                <h2>By The Numbers</h2>
-                <div class="grid-3" style="margin-top: 60px;">
-                    <div class="fragment zoom-in" data-fragment-index="1">
-                        <div class="stat">5</div>
-                        <p>Scoring Factors</p>
-                    </div>
-                    <div class="fragment zoom-in" data-fragment-index="2">
-                        <div class="stat">20</div>
-                        <p>Drivers Analyzed</p>
-                    </div>
-                    <div class="fragment zoom-in" data-fragment-index="3">
-                        <div class="stat">70+</div>
-                        <p>Years of F1 Data</p>
-                    </div>
-                </div>
-                <div class="grid-3 fragment fade-up" data-fragment-index="4" style="margin-top: 60px;">
-                    <div>
-                        <div class="stat">24</div>
-                        <p>Races / Season</p>
-                    </div>
-                    <div>
-                        <div class="stat">&lt;100ms</div>
-                        <p style="font-size: 0.9em;">API Response Time</p>
-                    </div>
-                    <div>
-                        <div class="stat">∞</div>
-                        <p>Possibilities</p>
-                    </div>
+            <!-- SLIDE 9: Stop Guessing CTA -->
+            <section>
+                <div class="glow-blob" style="top: 0; right: 0; width: 400px; height: 400px; background: linear-gradient(to right, #ef4444, #f97316);"></div>
+                <div class="glass-panel" style="margin-top: 80px;">
+                    <h2 style="font-size: 3em; margin-bottom: 30px;">Stop guessing.<br><span class="tagline">Start winning.</span></h2>
+                    <p style="color: var(--gs-slate-300); font-size: 1.3em; max-width: 700px; margin: 0 auto 40px;">
+                        Thousands of F1 Fantasy players use GridSharks to make better team decisions and improve their league performance.
+                    </p>
                 </div>
             </section>
 
-            <!-- SLIDE 10: Roadmap -->
-            <section data-background-gradient="linear-gradient(135deg, #1a0033 0%, #330066 100%)">
-                <h2>What's Next</h2>
-                <div class="grid-2" style="margin-top: 40px;">
-                    <div class="feature-box fragment fade-right">
-                        <h3>📅 Q1 2026</h3>
-                        <ul style="text-align: left;">
-                            <li class="fragment">✅ MVP launch before Bahrain</li>
-                            <li class="fragment">✅ Practice predictions live</li>
-                            <li class="fragment">✅ Email pick alerts</li>
-                        </ul>
-                    </div>
-                    <div class="feature-box fragment fade-left">
-                        <h3>🚀 The Future</h3>
-                        <ul style="text-align: left;">
-                            <li class="fragment">MotoGP + IndyCar expansion</li>
-                            <li class="fragment">NFL/NBA analytics</li>
-                            <li class="fragment">Community picks</li>
-                            <li class="fragment">Leaderboards + badges</li>
-                        </ul>
-                    </div>
+            <!-- SLIDE 10: Final CTA -->
+            <section>
+                <div class="glow-blob" style="top: 50%; left: 50%; width: 600px; height: 600px; background: linear-gradient(to right, #ef4444, #f97316); transform: translate(-50%, -50%);"></div>
+                <h1 class="brand" style="font-size: 5em; margin-bottom: 40px;">GridSharks</h1>
+                <h2 style="font-size: 2.5em; margin-bottom: 40px;">
+                    <span class="text-gradient">Think ahead.</span> 
+                    <span class="tagline">Win more.</span>
+                </h2>
+                <div class="fragment fade-up" style="margin-top: 80px;">
+                    <p style="font-size: 1.5em; margin-bottom: 20px;"><strong>GridSharks.com</strong></p>
+                    <p style="color: var(--gs-slate-300); font-size: 1.1em;">Simple, data-backed F1 Fantasy picks</p>
                 </div>
-            </section>
-
-            <!-- SLIDE 11: Epic Finale -->
-            <section data-background-gradient="linear-gradient(135deg, #000000 0%, #001a33 100%)">
-                <h1 class="brand glow pulse" style="font-size: 4em; margin-bottom: 30px;">GridSharks</h1>
-                <div class="racing-stripe"></div>
-                <h2 class="tagline fragment fade-up" style="margin: 40px 0; font-size: 1.5em;">THINK AHEAD. WIN MORE.</h2>
-                <div class="fragment fade-up" style="margin-top: 60px;">
-                    <h3 style="color: #00d4ff;">GridSharks.com</h3>
-                    <p style="margin-top: 20px; font-size: 1.1em;">F1 Fantasy picks backed by data, not guesswork.</p>
-                </div>
-                <p class="fragment fade-up" style="margin-top: 60px; opacity: 0.7;">
-                    <em>Built by SharkWorks | shark.works</em>
-                </p>
             </section>
 
         </div>
@@ -447,23 +431,12 @@
     <script>
         Reveal.initialize({
             hash: true,
-            transition: 'slide',
+            transition: 'fade',
             backgroundTransition: 'fade',
             progress: true,
             controls: true,
             center: true,
             slideNumber: 'c/t',
-            autoPlayMedia: true,
-            
-            // Enable fragments
-            fragments: true,
-            fragmentInURL: true,
-            
-            // Parallax background
-            parallaxBackgroundImage: '',
-            parallaxBackgroundSize: '',
-            
-            // View settings
             width: 1920,
             height: 1080,
             margin: 0.04,
